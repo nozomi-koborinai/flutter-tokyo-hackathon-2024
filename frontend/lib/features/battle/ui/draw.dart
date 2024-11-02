@@ -9,8 +9,8 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_in
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/player_intro1.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
-class Winner extends ConsumerWidget {
-  const Winner({
+class Draw extends ConsumerWidget {
+  const Draw({
     super.key,
     required this.uid,
     required this.room,
@@ -45,7 +45,7 @@ class Winner extends ConsumerWidget {
                     margin: const EdgeInsets.symmetric(vertical: 16),
                     child: Row(
                       children: [
-                        // 自分のキャラクター（勝った方）
+                        // 自分のキャラクター
                         Expanded(
                           child: Container(
                             margin: const EdgeInsets.only(right: 8),
@@ -63,7 +63,7 @@ class Winner extends ConsumerWidget {
                                     : const Center(
                                         child: Text('キャラ画像がありません'),
                                       ),
-                                // Winテキストをオーバーレイ表示
+                                // Drawテキストをオーバーレイ表示
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
@@ -72,7 +72,7 @@ class Winner extends ConsumerWidget {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Text(
-                                    'Winner!',
+                                    'Draw!',
                                     style: TextStyle(
                                       fontSize: 48,
                                       fontWeight: FontWeight.bold,
@@ -84,7 +84,7 @@ class Winner extends ConsumerWidget {
                             ),
                           ),
                         ),
-                        // 相手のキャラクター（負けた方）
+                        // 相手のキャラクター
                         Expanded(
                           child: Container(
                             margin: const EdgeInsets.only(left: 8),
@@ -102,7 +102,7 @@ class Winner extends ConsumerWidget {
                                     : const Center(
                                         child: Text('キャラ画像がありません'),
                                       ),
-                                // Loseテキストをオーバーレイ表示
+                                // Drawテキストをオーバーレイ表示
                                 Container(
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 10),
@@ -111,7 +111,7 @@ class Winner extends ConsumerWidget {
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: const Text(
-                                    'You Lose...',
+                                    'Draw!',
                                     style: TextStyle(
                                       fontSize: 48,
                                       fontWeight: FontWeight.bold,

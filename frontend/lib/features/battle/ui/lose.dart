@@ -43,40 +43,83 @@ class Lose extends ConsumerWidget {
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    child: Stack(
-                      alignment: Alignment.center,
+                    child: Row(
                       children: [
-                        // 勝者の画像を表示
-                        users
-                                .firstWhere((user) => user.hitPoint != 0)
-                                .characterImageUrl
-                                .isNotEmpty
-                            ? ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: Image.network(
-                                  users
-                                      .firstWhere((user) => user.hitPoint > 0)
-                                      .characterImageUrl,
-                                  fit: BoxFit.contain,
+                        // 自分のキャラクター（負けた方）
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 8),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                currentUser.characterImageUrl.isNotEmpty
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          currentUser.characterImageUrl,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      )
+                                    : const Center(
+                                        child: Text('キャラ画像がありません'),
+                                      ),
+                                // Loseテキストをオーバーレイ表示
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Text(
+                                    'You Lose...',
+                                    style: TextStyle(
+                                      fontSize: 48,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
-                              )
-                            : const Center(
-                                child: Text('キャラ画像がありません'),
-                              ),
-                        // Winner!テキストをオーバーレイ表示
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 10),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withOpacity(0.7),
-                            borderRadius: BorderRadius.circular(10),
+                              ],
+                            ),
                           ),
-                          child: const Text(
-                            'You Lose...',
-                            style: TextStyle(
-                              fontSize: 48,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
+                        ),
+                        // 相手のキャラクター（勝った方）
+                        Expanded(
+                          child: Container(
+                            margin: const EdgeInsets.only(left: 8),
+                            child: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                otherUser.characterImageUrl.isNotEmpty
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(20),
+                                        child: Image.network(
+                                          otherUser.characterImageUrl,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      )
+                                    : const Center(
+                                        child: Text('キャラ画像がありません'),
+                                      ),
+                                // Winテキストをオーバーレイ表示
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 10),
+                                  decoration: BoxDecoration(
+                                    color: Colors.black.withOpacity(0.7),
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                  child: const Text(
+                                    'Winner!',
+                                    style: TextStyle(
+                                      fontSize: 48,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
