@@ -56,6 +56,24 @@ class RoomRepository {
     }
   }
 
+  /// ルームのドキュメントを更新する。
+  Future<void> update(Room room) async {
+    try {
+      final roomDoc = RoomDocument(
+        roomId: room.roomId,
+        uid: room.uid,
+        pairUid: room.pairUid,
+        isOpen: room.isOpen,
+      );
+
+      await roomCollectionRef.doc(room.roomId).update(roomDoc.toJson());
+    } on FirebaseException catch (e) {
+      throw AppException('Firestore の更新処理でエラーが発生しました: ${e.code}');
+    } catch (e) {
+      throw AppException('予期しないエラーが発生しました: $e');
+    }
+  }
+
   /// ルームのドキュメントを削除する。
   Future<void> delete(String roomId) async {
     try {

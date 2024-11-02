@@ -13,10 +13,10 @@ class UserRepository {
   final CollectionReference<UserDocument> userCollectionRef;
 
   /// ユーザーのドキュメントを取得する。
-  Future<AppUser?> get(String uid) async {
+  Future<AppUser> get(String uid) async {
     try {
       final doc = await userCollectionRef.doc(uid).get();
-      return doc.data()?.toAppUser();
+      return doc.data()!.toAppUser();
     } on FirebaseException catch (e) {
       throw AppException('Firestore の取得処理でエラーが発生しました: ${e.code}');
     } catch (e) {
