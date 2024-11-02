@@ -1,0 +1,58 @@
+name: CI for Cloud Run functions on Firebase
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  changes:
+    name: Detect Changes
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+      contents: read
+    timeout-minutes: 15
+    outputs:
+      backend_functions: ${{ steps.filter.outputs.backend_functions }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Detect changes
+        uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            backend_functions:
+              - 'backend/functions/**'
+
+  functions_ci:
+    name: Functions CI
+    needs:
+      - changes
+    if: ${{ needs.changes.outputs.backend_functions == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./backend/functions
+
+      - name: Check for linting errors
+        run: npm run lint
+        working-directory: ./backend/functions
