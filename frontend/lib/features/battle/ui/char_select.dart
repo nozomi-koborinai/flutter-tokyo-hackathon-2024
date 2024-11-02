@@ -65,7 +65,7 @@ class CharacterSelectScreen extends ConsumerWidget {
                             ),
                           )
                         : const Center(
-                            child: Text('キャラ画像がありません'),
+                            child: SizedBox(),
                           ),
                   ),
                 ),
