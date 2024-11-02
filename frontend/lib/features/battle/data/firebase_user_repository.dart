@@ -34,7 +34,7 @@ class UserRepository {
         createImageCount: user.createImageCount,
       );
 
-      await userCollectionRef.add(userDoc);
+      await userCollectionRef.doc(userDoc.uid).set(userDoc);
     } on FirebaseException catch (e) {
       throw AppException('Firestore の作成処理でエラーが発生しました: ${e.code}');
     } catch (e) {

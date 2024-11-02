@@ -56,7 +56,7 @@ final userCollectionRefProvider = Provider(
           snapshot.id,
           snapshot.data()!,
         ),
-        toFirestore: (postDoc, options) => postDoc.toJson(),
+        toFirestore: (userDoc, options) => userDoc.toJson(),
       ),
 );
 
