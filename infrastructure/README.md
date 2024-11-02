@@ -1,4 +1,4 @@
-# 【Infrastructure】 flutter_tokyo_hackathon_2024_template
+# 【Infrastructure】 flutter_tokyo_hackathon_2024
 
 インフラストラクチャ管理用の Terraform ディレクトリです。
 
