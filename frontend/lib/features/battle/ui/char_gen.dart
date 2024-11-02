@@ -5,6 +5,7 @@ import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_select.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/create_character_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
 class CharacterGenerationPage extends ConsumerWidget {
@@ -20,6 +21,7 @@ class CharacterGenerationPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final battleUsersAsyncValue = ref.watch(subscribeBattleUsersProvider(room));
+    final promptController = TextEditingController();
 
     return battleUsersAsyncValue.when(
       data: (users) {
@@ -70,6 +72,7 @@ class CharacterGenerationPage extends ConsumerWidget {
                 // プロンプト入力フォーム
                 TextField(
                   maxLength: 20,
+                  controller: promptController,
                   decoration: InputDecoration(
                     hintText: 'キャラクターの説明を入力',
                     border: OutlineInputBorder(
@@ -86,6 +89,10 @@ class CharacterGenerationPage extends ConsumerWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
+                      ref.read(createCharacterUsecaseProvider).invoke(
+                            prompt: promptController.text,
+                            uid: uid,
+                          );
                       // CharacterSelectScreenへ遷移
                       PageNavigator.push(
                         context,

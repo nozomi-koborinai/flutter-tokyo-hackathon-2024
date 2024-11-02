@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/data/character_image_repository.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/data/firebase_user_repository.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/data/room_repository.dart';
 
@@ -79,4 +80,10 @@ final roomCollectionRefProvider = Provider(
         ),
         toFirestore: (roomDoc, options) => roomDoc.toJson(),
       ),
+);
+
+final characterImageRepositoryProvider = Provider<CharacterImageRepository>(
+  (ref) => CharacterImageRepository(
+    dio: ref.watch(dioProvider),
+  ),
 );
