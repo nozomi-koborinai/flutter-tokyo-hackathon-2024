@@ -1,0 +1,22 @@
+{
+  "hosting": {
+    "source": "build/web",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  },
+  "flutter": {
+    "platforms": {
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "flutter-tokyo-hackathon-2024-k",
+          "configurations": {
+            "web": "1:364766414282:web:8e674582fd69e0e09dfb33"
+          }
+        }
+      }
+    }
+  }
+}
