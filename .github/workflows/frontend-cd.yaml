@@ -1,0 +1,58 @@
+name: CD for Deploy to Firebase Hosting
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'frontend/**'
+
+jobs:
+  build_and_deploy:
+    name: Build and Deploy
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Check fvm
+        uses: kuhnroyal/flutter-fvm-config-action@v1
+        with:
+          path: frontend/.fvm/fvm_config.json
+
+      - name: Setup Flutter SDK
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          channel: ${{ env.FLUTTER_CHANNEL }}
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-path: ${{ runner.tool_cache }}/flutter
+
+      - name: Install dependencies
+        run: flutter pub get
+        working-directory: ./frontend
+
+      - name: Build Web
+        run: flutter build web
+        working-directory: ./frontend
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          workload_identity_provider: ${{ secrets.WORKLOAD_IDENTITY_PROVIDER_FB }}
+          service_account: ${{ secrets.SERVICE_ACCOUNT_MAIL_FB }}
+          create_credentials_file: true
+          export_environment_variables: true
+
+      - name: Deploy to Firebase Hosting
+        run: |
+          npm install -g firebase-tools
+          firebase deploy --only hosting --project=${{ secrets.PROJECT_ID }}
+        working-directory: ./frontend
