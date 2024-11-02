@@ -26,6 +26,13 @@ class App extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'battle!!',
+//      darkTheme: ThemeData(
+//        brightness: Brightness.dark,
+//        colorScheme: const ColorScheme.dark(
+//          primary: Colors.white,
+//          secondary: Colors.grey,
+//        ),
+//      ),
       theme: ThemeData(
         useMaterial3: true,
         colorSchemeSeed: Colors.white,

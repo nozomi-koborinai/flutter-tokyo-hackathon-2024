@@ -33,6 +33,7 @@ class PlayerIntro1 extends HookConsumerWidget {
     return battleUsersAsyncValue.when(
       data: (users) {
         final currentUser = users.firstWhere((user) => user.uid == uid);
+        final otherUser = users.firstWhere((user) => user.uid != uid);
         return Scaffold(
           body: Container(
             color: Colors.white,
@@ -53,20 +54,13 @@ class PlayerIntro1 extends HookConsumerWidget {
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                     child: currentUser.characterImageUrl.isNotEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      currentUser.characterImageUrl),
-                                  fit: BoxFit.cover,
-                                ),
+                        ? Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                currentUser.characterImageUrl,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           )
@@ -76,20 +70,28 @@ class PlayerIntro1 extends HookConsumerWidget {
                   ),
                 ),
                 // プレイヤー情報
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    PlayerInfo(
-                      playerName: 'Player1',
-                      currentHp: 30,
-                      maxHp: 30,
-                    ),
-                    PlayerInfo(
-                      playerName: 'Player2',
-                      currentHp: 30,
-                      maxHp: 30,
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      PlayerInfo(
+                        playerName: currentUser.userName,
+                        currentHp: currentUser.hitPoint,
+                        maxHp: 30,
+                      ),
+                      PlayerInfo(
+                        playerName: otherUser.userName,
+                        currentHp: otherUser.hitPoint,
+                        maxHp: 30,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
