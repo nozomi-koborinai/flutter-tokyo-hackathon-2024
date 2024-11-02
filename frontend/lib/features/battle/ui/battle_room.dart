@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/component/player_card.dart';
+import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_card.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/player_wait.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/create_room_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_rooms.dart';
@@ -24,8 +25,16 @@ class BattleRoom extends ConsumerWidget {
                 padding: const EdgeInsets.all(16.0),
                 child: ElevatedButton(
                   onPressed: () async {
-                    await ref.read(createRoomUsecaseProvider).invoke(uid: uid);
-                    PageNavigator.push(context, const PlayerWaitScreen());
+                    final createdRoom = await ref
+                        .read(createRoomUsecaseProvider)
+                        .invoke(uid: uid);
+                    PageNavigator.push(
+                      context,
+                      PlayerWaitScreen(
+                        uid: uid,
+                        roomId: createdRoom.roomId,
+                      ),
+                    );
                   },
                   child: const Text(
                     'ルーム作成',
@@ -42,7 +51,7 @@ class BattleRoom extends ConsumerWidget {
                         itemCount: rooms.length,
                         itemBuilder: (context, index) {
                           final room = rooms[index];
-                          return PlayerCard(room: room);
+                          return PlayerCard(uid: uid, room: room);
                         },
                       ),
               ),
@@ -51,9 +60,7 @@ class BattleRoom extends ConsumerWidget {
           error: (error, stackTrace) => Center(
             child: Text(error.toString()),
           ),
-          loading: () => const Center(
-            child: CircularProgressIndicator(),
-          ),
+          loading: () => const OverlayLoading(),
         ),
       ),
     );

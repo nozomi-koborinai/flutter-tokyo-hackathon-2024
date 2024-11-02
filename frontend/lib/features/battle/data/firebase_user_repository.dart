@@ -24,6 +24,20 @@ class UserRepository {
     }
   }
 
+  /// ユーザーのドキュメントを購読する。
+  Stream<AppUser> subscribe(String uid) {
+    try {
+      return userCollectionRef
+          .doc(uid)
+          .snapshots()
+          .map((snapshot) => snapshot.data()!.toAppUser());
+    } on FirebaseException catch (e) {
+      throw AppException('Firestore の取得処理でエラーが発生しました: ${e.code}');
+    } catch (e) {
+      throw AppException('予期しないエラーが発生しました: $e');
+    }
+  }
+
   /// ユーザーのドキュメントを作成する。
   Future<void> add(AppUser user) async {
     try {

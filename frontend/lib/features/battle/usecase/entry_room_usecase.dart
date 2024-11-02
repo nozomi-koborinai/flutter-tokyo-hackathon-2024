@@ -6,7 +6,7 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/usecase_mix
 /// [EntryRoomUsecase] のインスタンスを作成するためのプロバイダ
 ///
 /// UI 層にユースケースを注入するために使用され、躁鬱状態を登録する
-final createRoomUsecaseProvider = Provider<EntryRoomUsecase>(
+final entryRoomUsecaseProvider = Provider<EntryRoomUsecase>(
   EntryRoomUsecase.new,
 );
 

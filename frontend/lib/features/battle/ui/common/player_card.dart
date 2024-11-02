@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/entry_room_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/get_user_provider.dart';
 
 class PlayerCard extends ConsumerWidget {
   const PlayerCard({
     super.key,
+    required this.uid,
     required this.room,
   });
 
+  final String uid;
   final Room room;
 
   @override
@@ -30,7 +33,12 @@ class PlayerCard extends ConsumerWidget {
             ),
             trailing: ElevatedButton(
               onPressed: () {
-                // roomのデータを使って対戦ロジックを実装
+                ref.read(entryRoomUsecaseProvider).invoke(
+                      uid: room.uid,
+                      pairUid: uid,
+                      roomId: room.roomId,
+                      isOpen: room.isOpen,
+                    );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
