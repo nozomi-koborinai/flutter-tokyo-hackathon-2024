@@ -1,74 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/battle_room.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/input_name_usecase.dart';
 
-class HomePage extends StatefulWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key, required this.uid});
   final String uid;
 
   @override
-  State<HomePage> createState() => _HomePageState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final nameController = TextEditingController();
 
-class _HomePageState extends State<HomePage> {
-  final _nameController = TextEditingController();
-  final _formKey = GlobalKey<FormState>();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _startBattle(BuildContext context) async {
-    if (!_formKey.currentState!.validate()) return;
-
-    try {
-      // Firebaseにユーザー情報を保存
-      final userDoc =
-          FirebaseFirestore.instance.collection('users').doc(widget.uid);
-      await userDoc.set({
-        'name': _nameController.text,
-        'createdAt': FieldValue.serverTimestamp(),
-      });
-
-      // バトルルームへ遷移
-      if (!mounted) return;
-      PageNavigator.push(
-        context,
-        BattleRoom(uid: widget.uid),
-      );
-    } catch (e) {
-      // エラーハンドリング
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('エラーが発生しました。もう一度お試しください。')),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
         child: Form(
-          key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'App名',
+                'Battle!!!',
                 style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 50),
-              // 名前入力フィールドを追加
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 400),
                 child: TextFormField(
-                  controller: _nameController,
+                  controller: nameController,
                   decoration: const InputDecoration(
                     labelText: 'プレイヤー名',
                     border: OutlineInputBorder(),
@@ -83,7 +44,17 @@ class _HomePageState extends State<HomePage> {
               ),
               const SizedBox(height: 50),
               OutlinedButton(
-                onPressed: () => _startBattle(context),
+                onPressed: () async {
+                  // 名前入力のユースケースを実行
+                  await ref.read(inputNameUsecaseProvider).invoke(
+                        uid: uid,
+                        userName: nameController.text,
+                      );
+                  PageNavigator.push(
+                    context,
+                    BattleRoom(uid: uid),
+                  );
+                },
                 style: OutlinedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 180,
