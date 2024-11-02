@@ -5,21 +5,33 @@
             "name": "frontend",
             "cwd": "frontend",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--web-renderer",
+                "html"
+            ]
         },
         {
             "name": "frontend (profile mode)",
             "cwd": "frontend",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "profile"
+            "flutterMode": "profile",
+            "args": [
+                "--web-renderer",
+                "html"
+            ]
         },
         {
             "name": "frontend (release mode)",
             "cwd": "frontend",
             "request": "launch",
             "type": "dart",
-            "flutterMode": "release"
+            "flutterMode": "release",
+            "args": [
+                "--web-renderer",
+                "html"
+            ]
         }
     ]
 }

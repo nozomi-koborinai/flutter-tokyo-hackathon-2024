@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_select.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
@@ -84,7 +86,14 @@ class CharacterGenerationPage extends ConsumerWidget {
                 Center(
                   child: ElevatedButton(
                     onPressed: () {
-                      // TODO: キャラクター生成処理を実装
+                      // CharacterSelectScreenへ遷移
+                      PageNavigator.push(
+                        context,
+                        CharacterSelectScreen(
+                          uid: uid,
+                          room: room,
+                        ),
+                      );
                     },
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(

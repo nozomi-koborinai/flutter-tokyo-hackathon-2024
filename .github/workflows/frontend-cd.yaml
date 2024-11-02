@@ -6,7 +6,7 @@ on:
     branches:
       - main
     paths:
-      - 'frontend/**'
+      - "frontend/**"
 
 jobs:
   build_and_deploy:
@@ -32,7 +32,7 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
           channel: ${{ env.FLUTTER_CHANNEL }}
           cache: true
-          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+          cache-key: "flutter-:os:-:channel:-:version:-:arch:-:hash:"
           cache-path: ${{ runner.tool_cache }}/flutter
 
       - name: Install dependencies
@@ -40,7 +40,7 @@ jobs:
         working-directory: ./frontend
 
       - name: Build Web
-        run: flutter build web
+        run: flutter build web --web-renderer html
         working-directory: ./frontend
 
       - name: Authenticate to Google Cloud
