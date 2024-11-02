@@ -6,6 +6,7 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/member_list.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/player_intro1.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/battle_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
 class CharacterSelectScreen extends ConsumerWidget {
@@ -77,13 +78,16 @@ class CharacterSelectScreen extends ConsumerWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        // CharacterSelectScreenへ遷移
+                        ref.read(battleUsecaseProvider).invoke(
+                              roomId: room.roomId,
+                              uid: uid,
+                              pairUid: room.pairUid,
+                              userImageUrl: currentUser.characterImageUrl,
+                              pairUserImageUrl: otherUser.characterImageUrl,
+                            );
                         PageNavigator.push(
                           context,
-                          PlayerIntro1(
-                            uid: uid,
-                            room: room,
-                          ),
+                          PlayerIntro1(uid: uid, room: room),
                         );
                       },
                       child: const Text('このキャラで戦う'),

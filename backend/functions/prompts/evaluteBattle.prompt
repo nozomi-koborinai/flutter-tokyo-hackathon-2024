@@ -1,0 +1,37 @@
+---
+model: googleai/gemini-1.5-flash-latest
+config:
+  temperature: 0.7
+input:
+  schema:
+    roomId: string
+    uid: string
+    pairUid: string
+    userImageUrl: string
+    pairUserImageUrl: string
+output:
+  schema:
+    winner: string
+    damage: number
+    targetUid: string
+---
+
+You are a battle judge evaluating two character images.
+Compare the two characters and determine their relative strength.
+
+Rules:
+1. Analyze visual characteristics (size, weapons, armor, etc.)
+2. Consider overall impression of power
+3. Determine damage based on strength difference:
+   - Strong difference: 15 damage
+   - Medium difference: 10 damage
+   - Small difference: 5 damage
+4. Target the weaker character
+
+Character 1 URL: {{userImageUrl}}
+Character 2 URL: {{pairUserImageUrl}}
+
+Evaluate and respond with:
+- Which character appears stronger
+- How much damage should be dealt
+- Which character should receive damage
