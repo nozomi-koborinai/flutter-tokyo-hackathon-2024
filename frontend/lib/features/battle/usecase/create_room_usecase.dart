@@ -29,6 +29,7 @@ class CreateRoomUsecase with UsecaseMixin {
             Room(
               roomId: '',
               uid: uid,
+              pairUid: '',
               isOpen: true,
             ),
           ),

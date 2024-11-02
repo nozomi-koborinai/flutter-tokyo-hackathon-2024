@@ -44,6 +44,7 @@ class RoomRepository {
       final roomDoc = RoomDocument(
         roomId: room.roomId,
         uid: room.uid,
+        pairUid: room.pairUid,
         isOpen: room.isOpen,
       );
 
@@ -72,22 +73,26 @@ class RoomDocument {
   RoomDocument({
     required this.roomId,
     required this.uid,
+    required this.pairUid,
     required this.isOpen,
   });
 
   final String roomId;
   final String uid;
+  final String pairUid;
   final bool isOpen;
 
   factory RoomDocument.fromJson(String roomId, Map<String, dynamic> json) =>
       RoomDocument(
         roomId: roomId,
         uid: json['uid'] as String,
+        pairUid: json['pairUid'] as String,
         isOpen: json['isOpen'] as bool,
       );
 
   Map<String, dynamic> toJson() => {
         'uid': uid,
+        'pairUid': pairUid,
         'isOpen': isOpen,
       };
 }
@@ -98,6 +103,7 @@ extension on RoomDocument {
   Room toAppRoom() => Room(
         roomId: roomId,
         uid: uid,
+        pairUid: pairUid,
         isOpen: isOpen,
       );
 }
