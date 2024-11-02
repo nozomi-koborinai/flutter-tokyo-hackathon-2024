@@ -19,7 +19,7 @@ class HomePage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Text(
-                'Battle!!!',
+                'Generate Wars',
                 style: TextStyle(
                   fontSize: 48,
                   fontWeight: FontWeight.bold,
