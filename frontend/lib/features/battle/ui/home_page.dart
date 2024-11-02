@@ -7,6 +7,7 @@ class HomePage extends StatelessWidget {
   // ユーザーID
   final String uid;
 
+  @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
