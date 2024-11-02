@@ -24,6 +24,24 @@ class UserRepository {
     }
   }
 
+  /// ユーザーのドキュメントを作成する。
+  Future<void> add(AppUser user) async {
+    try {
+      final userDoc = UserDocument(
+        uid: user.uid,
+        userName: user.userName,
+        hitPoint: user.hitPoint,
+        createImageCount: user.createImageCount,
+      );
+
+      await userCollectionRef.add(userDoc);
+    } on FirebaseException catch (e) {
+      throw AppException('Firestore の作成処理でエラーが発生しました: ${e.code}');
+    } catch (e) {
+      throw AppException('予期しないエラーが発生しました: $e');
+    }
+  }
+
   /// ユーザーのドキュメントを削除する。
   Future<void> delete(String uid) async {
     try {
@@ -65,28 +83,27 @@ class UserRepository {
 class UserDocument {
   UserDocument({
     required this.uid,
-    required this.displayName,
-    required this.imageUrl,
-    required this.createdAt,
+    required this.userName,
+    required this.hitPoint,
+    required this.createImageCount,
   });
 
   final String uid;
-  final String displayName;
-  final String imageUrl;
-  final DateTime createdAt;
+  final String userName;
+  final int hitPoint;
+  final int createImageCount;
 
   factory UserDocument.fromJson(String uid, Map<String, dynamic> json) =>
       UserDocument(
-        uid: uid,
-        displayName: json['displayName'] as String,
-        imageUrl: json['imageUrl'] as String,
-        createdAt: (json['createdAt'] as Timestamp).toDate(),
-      );
+          uid: uid,
+          userName: json['userName'] as String,
+          hitPoint: json['hitPoint'] as int,
+          createImageCount: json['createImageCount'] as int);
 
   Map<String, dynamic> toJson() => {
-        'displayName': displayName,
-        'imageUrl': imageUrl,
-        'createdAt': createdAt,
+        'userName': userName,
+        'hitPoint': hitPoint,
+        'createImageCount': createImageCount,
       };
 }
 
@@ -95,7 +112,8 @@ extension on UserDocument {
   /// UserDocument -> AppUser
   AppUser toAppUser() => AppUser(
         uid: uid,
-        displayName: displayName,
-        imageUrl: imageUrl,
+        userName: userName,
+        hitPoint: hitPoint,
+        createImageCount: createImageCount,
       );
 }

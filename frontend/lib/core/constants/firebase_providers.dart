@@ -3,6 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/auth/data/firebase_user_repository.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/data/room_repository.dart';
 
 /// Firebase Auth のインスタンスを保持する [Provider]
 final firebaseAuthProvider = Provider<FirebaseAuth>(
@@ -56,5 +57,26 @@ final userCollectionRefProvider = Provider(
           snapshot.data()!,
         ),
         toFirestore: (postDoc, options) => postDoc.toJson(),
+      ),
+);
+
+/// [RoomRepository] のインスタンスを提供する [Provider]
+final roomRepositoryProvider = Provider<RoomRepository>(
+  (ref) => RoomRepository(
+    roomCollectionRef: ref.watch(roomCollectionRefProvider),
+  ),
+);
+
+/// ルームコレクションの参照結果を提供する [Provider].
+final roomCollectionRefProvider = Provider(
+  (ref) => ref
+      .watch(firebaseFirestoreProvider)
+      .collection('rooms')
+      .withConverter<RoomDocument>(
+        fromFirestore: (snapshot, _) => RoomDocument.fromJson(
+          snapshot.id,
+          snapshot.data()!,
+        ),
+        toFirestore: (roomDoc, options) => roomDoc.toJson(),
       ),
 );
