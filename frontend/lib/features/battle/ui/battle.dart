@@ -5,6 +5,7 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/member_list.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_gen.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/winner.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
 class BattleScreen extends ConsumerWidget {
@@ -16,22 +17,27 @@ class BattleScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final battleUsersAsyncValue = ref.watch(subscribeBattleUsersProvider(room));
-    // 4秒後にCharacterGenerationPageに遷移
-    Future.delayed(const Duration(seconds: 4), () {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => CharacterGenerationPage(
-            uid: uid,
-            room: room,
-          ),
-        ),
-      );
-    });
 
     return battleUsersAsyncValue.when(
       data: (users) {
         final currentUser = users.firstWhere((user) => user.uid == uid);
         final otherUser = users.firstWhere((user) => user.uid != uid);
+
+        if (currentUser.hitPoint <= 0 || otherUser.hitPoint <= 0) {
+          return Winner(room: room, uid: uid);
+        }
+
+        Future.delayed(const Duration(seconds: 4), () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => CharacterGenerationPage(
+                uid: uid,
+                room: room,
+              ),
+            ),
+          );
+        });
+
         return Scaffold(
           body: Container(
             color: Colors.white,

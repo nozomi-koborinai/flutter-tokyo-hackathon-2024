@@ -5,6 +5,8 @@ import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_select.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/lose.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/winner.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/create_character_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
@@ -27,7 +29,29 @@ class CharacterGenerationPage extends ConsumerWidget {
       data: (users) {
         final currentUser = users.firstWhere((user) => user.uid == uid);
         final otherUser = users.firstWhere((user) => user.uid != uid);
-
+        if (currentUser.hitPoint <= 0) {
+          // 遷移後に前の画面に戻れないようにするため pushReplacement を使用
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Winner(
+                  room: room,
+                  uid: uid,
+                ),
+              ),
+            );
+          });
+        } else if (otherUser.hitPoint <= 0) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Lose(room: room, uid: uid),
+              ),
+            );
+          });
+        }
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(16.0),
