@@ -71,7 +71,7 @@ class BattleScreen extends ConsumerWidget {
                                   )
                                 : const Center(
                                     child: Text(
-                                      'キャラ画像',
+                                      'キャラ画像がありません',
                                       style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class BattleScreen extends ConsumerWidget {
                                   )
                                 : const Center(
                                     child: Text(
-                                      'キャラ画像',
+                                      'キャラ画像がありません',
                                       style: TextStyle(
                                         fontSize: 24,
                                         fontWeight: FontWeight.bold,
@@ -111,20 +111,28 @@ class BattleScreen extends ConsumerWidget {
                   ),
                 ),
                 // プレイヤー情報
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    PlayerInfo(
-                      playerName: 'Player1',
-                      currentHp: 30,
-                      maxHp: 30,
-                    ),
-                    PlayerInfo(
-                      playerName: 'Player2',
-                      currentHp: 30,
-                      maxHp: 30,
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      PlayerInfo(
+                        playerName: currentUser.userName,
+                        currentHp: currentUser.hitPoint,
+                        maxHp: 30,
+                      ),
+                      PlayerInfo(
+                        playerName: otherUser.userName,
+                        currentHp: otherUser.hitPoint,
+                        maxHp: 30,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

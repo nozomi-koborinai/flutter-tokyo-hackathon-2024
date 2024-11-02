@@ -24,6 +24,7 @@ class CharacterSelectScreen extends ConsumerWidget {
     return battleUsersAsyncValue.when(
       data: (users) {
         final currentUser = users.firstWhere((user) => user.uid == uid);
+        final otherUser = users.firstWhere((user) => user.uid != uid);
         return Scaffold(
           body: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -40,7 +41,7 @@ class CharacterSelectScreen extends ConsumerWidget {
                 // メインタイトル
                 const Center(
                   child: Text(
-                    'お前が戦うキャラクターは\nこいつです',
+                    'お前の相棒はこいつだ！',
                     style: TextStyle(fontSize: 24),
                     textAlign: TextAlign.center,
                   ),
@@ -48,24 +49,17 @@ class CharacterSelectScreen extends ConsumerWidget {
 
                 const SizedBox(height: 20),
 
-                // キャラクター画像プレースホルダー
+                // キャラクター画像
                 Expanded(
                   child: Container(
                     margin: const EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
                     child: currentUser.characterImageUrl.isNotEmpty
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: NetworkImage(
-                                      currentUser.characterImageUrl),
-                                  fit: BoxFit.cover,
-                                ),
+                        ? Center(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: Image.network(
+                                currentUser.characterImageUrl,
+                                fit: BoxFit.contain,
                               ),
                             ),
                           )
@@ -81,10 +75,6 @@ class CharacterSelectScreen extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('再度キャラ生成\n※あと○回'),
-                    ),
                     ElevatedButton(
                       onPressed: () {
                         // CharacterSelectScreenへ遷移
@@ -104,20 +94,28 @@ class CharacterSelectScreen extends ConsumerWidget {
                 const SizedBox(height: 20),
 
                 // プレイヤー情報
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    PlayerInfo(
-                      playerName: 'Player1',
-                      currentHp: 30,
-                      maxHp: 30,
-                    ),
-                    PlayerInfo(
-                      playerName: 'Player2',
-                      currentHp: 30,
-                      maxHp: 30,
-                    ),
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(12.0),
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      PlayerInfo(
+                        playerName: currentUser.userName,
+                        currentHp: currentUser.hitPoint,
+                        maxHp: 30,
+                      ),
+                      PlayerInfo(
+                        playerName: otherUser.userName,
+                        currentHp: otherUser.hitPoint,
+                        maxHp: 30,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
