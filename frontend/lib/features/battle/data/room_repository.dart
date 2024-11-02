@@ -26,6 +26,37 @@ class RoomRepository {
     }
   }
 
+  /// ルームのドキュメントを取得する。
+  Future<Room> get(String roomId) async {
+    try {
+      final snapshot = await roomCollectionRef.doc(roomId).get();
+      return snapshot.data()!.toAppRoom();
+    } on FirebaseException catch (e) {
+      throw AppException('Firestore の取得処理でエラーが発生しました: ${e.code}');
+    } catch (e) {
+      throw AppException('予期しないエラーが発生しました: $e');
+    }
+  }
+
+  /// ユーザー ID からルームを取得する。
+  Future<Room> getByUid(String uid) async {
+    try {
+      final snapshot = await roomCollectionRef
+          .where(
+            'uid',
+            isEqualTo: uid,
+          )
+          .limit(1)
+          .get();
+
+      return snapshot.docs.first.data().toAppRoom();
+    } on FirebaseException catch (e) {
+      throw AppException('Firestore の取得処理でエラーが発生しました: ${e.code}');
+    } catch (e) {
+      throw AppException('予期しないエラーが発生しました: $e');
+    }
+  }
+
   /// 全てのルームのドキュメントを購読する。
   Stream<List<Room>> subscribeRooms() {
     try {

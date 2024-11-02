@@ -20,19 +20,19 @@ class CreateRoomUsecase with UsecaseMixin {
   CreateRoomUsecase(this.ref);
 
   /// [Room] を登録するユースケースの実行
-  Future<void> invoke({
+  Future<Room> invoke({
     required String uid,
   }) async {
-    await run(
-      ref,
-      action: () async => await ref.read(roomRepositoryProvider).add(
+    return await run(ref, action: () async {
+      await ref.read(roomRepositoryProvider).add(
             Room(
               roomId: '',
               uid: uid,
               pairUid: '',
               isOpen: true,
             ),
-          ),
-    );
+          );
+      return await ref.read(roomRepositoryProvider).getByUid(uid);
+    });
   }
 }
