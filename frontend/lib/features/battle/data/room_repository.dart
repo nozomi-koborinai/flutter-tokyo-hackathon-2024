@@ -46,7 +46,6 @@ class RoomRepository {
             'uid',
             isEqualTo: uid,
           )
-          .limit(1)
           .get();
 
       return snapshot.docs.first.data().toAppRoom();

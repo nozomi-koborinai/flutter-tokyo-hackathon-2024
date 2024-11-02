@@ -63,7 +63,7 @@ final userCollectionRefProvider = Provider(
 );
 
 /// [RoomRepository] のインスタンスを提供する [Provider]
-final roomRepositoryProvider = Provider<RoomRepository>(
+final roomRepositoryProvider = Provider.autoDispose<RoomRepository>(
   (ref) => RoomRepository(
     roomCollectionRef: ref.watch(roomCollectionRefProvider),
   ),
