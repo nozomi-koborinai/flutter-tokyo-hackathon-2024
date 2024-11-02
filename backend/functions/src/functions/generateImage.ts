@@ -61,7 +61,7 @@ export const generateImage = genkitFunctions.onFlow(
     // 保存した画像の参照URLを取得
     const imageUrl = `https://firebasestorage.googleapis.com/v0/b/${
       bucket.name
-    }/o/${encodeURIComponent(fileName)}`;
+    }/o/${encodeURIComponent(fileName)}?alt=media`;
 
     // Firestoreのユーザードキュメントを更新
     await db.collection("users").doc(input.uid).update({
