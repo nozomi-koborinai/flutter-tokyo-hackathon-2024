@@ -23,9 +23,9 @@ Rules:
 1. Analyze visual characteristics (size, weapons, armor, etc.)
 2. Consider overall impression of power
 3. Determine damage based on strength difference:
-   - Strong difference: 15 damage
-   - Medium difference: 10 damage
-   - Small difference: 5 damage
+   - Strong difference: 25 damage
+   - Medium difference: 15 damage
+   - Small difference: 10 damage
 4. Target the weaker character
 
 Character 1 URL: {{userImageUrl}}
