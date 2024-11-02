@@ -1,5 +1,5 @@
 import * as z from "zod";
 
-export const generateImageInputSchema = z.object({
+export const translateInputSchema = z.object({
   prompt: z.string(),
 });

@@ -6,7 +6,6 @@ import { googleAI } from "@genkit-ai/googleai";
 import { vertexAI } from "@genkit-ai/vertexai";
 import * as admin from "firebase-admin";
 import { defineSecret } from "firebase-functions/params";
-import * as z from "zod";
 
 configureGenkit({
   plugins: [
@@ -26,10 +25,8 @@ configureGenkit({
 
 admin.initializeApp();
 
-export const getPunishmentSchema = z.object({
-  existingPunishments: z.array(z.string()),
-});
-
 export const db = admin.firestore();
+
+export const storage = admin.storage();
 
 export const googleAIapiKey = defineSecret(`GOOGLE_GENAI_API_KEY`);
