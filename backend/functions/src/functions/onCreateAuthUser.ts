@@ -7,7 +7,7 @@ export const onCreateAuthUser = firebaseFunctions.auth
   .onCreate(async (user) => {
     try {
       await db.collection(`users`).doc(user.uid).set({
-        imageUrl: ``,
+        displayName: ``,
         createdAt: admin.firestore.FieldValue.serverTimestamp(),
       });
       console.log(`User document created for ${user.uid}`);
