@@ -60,8 +60,10 @@ class RoomRepository {
   /// 全てのルームのドキュメントを購読する。
   Stream<List<Room>> subscribeRooms() {
     try {
-      return roomCollectionRef.snapshots().map((snapshot) =>
-          snapshot.docs.map((doc) => doc.data().toAppRoom()).toList());
+      return roomCollectionRef.where('isOpen', isEqualTo: true).snapshots().map(
+            (snapshot) =>
+                snapshot.docs.map((doc) => doc.data().toAppRoom()).toList(),
+          );
     } on FirebaseException catch (e) {
       throw AppException('Firestore の取得処理でエラーが発生しました: ${e.code}');
     } catch (e) {

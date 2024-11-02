@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/player_wait.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/entry_room_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/get_user_provider.dart';
 
@@ -32,13 +34,21 @@ class PlayerCard extends ConsumerWidget {
               style: const TextStyle(fontSize: 18),
             ),
             trailing: ElevatedButton(
-              onPressed: () {
-                ref.read(entryRoomUsecaseProvider).invoke(
+              onPressed: () async {
+                // 対決ボタン押下時のユースケースを実行
+                await ref.read(entryRoomUsecaseProvider).invoke(
                       uid: room.uid,
                       pairUid: uid,
                       roomId: room.roomId,
                       isOpen: room.isOpen,
                     );
+                PageNavigator.push(
+                  context,
+                  PlayerWaitScreen(
+                    uid: uid,
+                    roomId: room.roomId,
+                  ),
+                );
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
