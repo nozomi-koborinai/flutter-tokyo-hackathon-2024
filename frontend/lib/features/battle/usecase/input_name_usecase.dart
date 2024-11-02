@@ -5,7 +5,7 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/usecase_mix
 
 /// [InputNameUsecase] のインスタンスを作成するためのプロバイダ
 ///
-/// UI 層にユースケースを注入するために使用され、躁鬱状態を登録する
+/// UI 層にユースケースを注入するために使用される
 final inputNameUsecaseProvider = Provider<InputNameUsecase>(
   InputNameUsecase.new,
 );

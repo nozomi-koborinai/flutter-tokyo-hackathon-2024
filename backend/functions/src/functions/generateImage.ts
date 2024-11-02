@@ -2,7 +2,7 @@ import { prompt } from "@genkit-ai/dotprompt";
 import { firebaseAuth } from "@genkit-ai/firebase/auth";
 import * as genkitFunctions from "@genkit-ai/firebase/functions";
 import * as z from "zod";
-import { db, storage } from "../config/firebase";
+import { db, googleAIapiKey, storage } from "../config/firebase";
 import { generateImageInputSchema } from "../schemas/generateImageInputSchema";
 import { translateInputSchema } from "../schemas/translateInputSchema";
 
@@ -11,6 +11,7 @@ export const generateImage = genkitFunctions.onFlow(
     name: `generateImage`,
     httpsOptions: {
       cors: true,
+      secrets: [googleAIapiKey],
     },
     inputSchema: z.object({
       prompt: z.string(),
