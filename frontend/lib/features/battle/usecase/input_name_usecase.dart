@@ -31,7 +31,8 @@ class InputNameUsecase with UsecaseMixin {
               uid: uid,
               userName: userName,
               hitPoint: 30,
-              createImageCount: 3,
+              createImageCount: 2,
+              characterImageUrl: '',
             ),
           ),
     );
