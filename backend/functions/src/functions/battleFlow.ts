@@ -49,16 +49,20 @@ export const battleFlow = genkitFunctions.onFlow(
       });
 
       return {
-        winner,
-        damage: result.damage,
-        targetUid: result.targetUid,
+        result: {
+          winner,
+          damage: result.damage,
+          targetUid: result.targetUid,
+        },
       };
     }
 
     // まだ決着がついていない場合
     return {
-      damage: result.damage,
-      targetUid: result.targetUid,
+      result: {
+        damage: result.damage,
+        targetUid: result.targetUid,
+      },
     };
   }
 );
