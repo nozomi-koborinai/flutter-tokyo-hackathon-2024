@@ -11,11 +11,27 @@ service cloud.firestore {
     }
 
     match /users/{uid} {
-      allow read, write: if isOwner(uid);
+      allow get: if isOwner(uid);
+      allow list: if isOwner(uid);
+      allow create: if isOwner(uid);
+      allow update: if isOwner(uid);
+      allow delete: if isOwner(uid);
+    }
+
+    match /rooms/{roomId} {
+      allow get: if hasAuth();
+      allow list: if hasAuth();
+      allow create: if hasAuth();
+      allow update: if hasAuth();
+      allow delete: if hasAuth();
     }
 
     match /appConf/{confId} {
-      allow read, write: if hasAuth();
+      allow get: if hasAuth();
+      allow list: if hasAuth();
+      allow create: if hasAuth();
+      allow update: if hasAuth();
+      allow delete: if hasAuth();
     }
   }
 }
