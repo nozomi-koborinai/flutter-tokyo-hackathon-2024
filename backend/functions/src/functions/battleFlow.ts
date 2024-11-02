@@ -24,7 +24,7 @@ export const battleFlow = genkitFunctions.onFlow(
   async (input) => {
     // バトル評価を実行
     const evaluatePrompt = await prompt<z.infer<typeof battleInputSchema>>(
-      `evaluateBattle`
+      `evaluteBattle`
     );
 
     const evaluation = await evaluatePrompt.generate({ input });
