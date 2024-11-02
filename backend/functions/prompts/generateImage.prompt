@@ -11,4 +11,4 @@ output:
 
 You are the world's best illustrator.
 
-Please generate an image of {{prompt}} in the style of a trading card.
+Please generate an image of {{prompt}} in the style of a Pokemon card.
