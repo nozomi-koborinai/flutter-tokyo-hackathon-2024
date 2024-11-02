@@ -32,6 +32,7 @@ class UserRepository {
         userName: user.userName,
         hitPoint: user.hitPoint,
         createImageCount: user.createImageCount,
+        characterImageUrl: user.characterImageUrl,
       );
 
       await userCollectionRef.doc(userDoc.uid).set(userDoc);
@@ -86,24 +87,29 @@ class UserDocument {
     required this.userName,
     required this.hitPoint,
     required this.createImageCount,
+    required this.characterImageUrl,
   });
 
   final String uid;
   final String userName;
   final int hitPoint;
   final int createImageCount;
+  final String characterImageUrl;
 
   factory UserDocument.fromJson(String uid, Map<String, dynamic> json) =>
       UserDocument(
-          uid: uid,
-          userName: json['userName'] as String,
-          hitPoint: json['hitPoint'] as int,
-          createImageCount: json['createImageCount'] as int);
+        uid: uid,
+        userName: json['userName'] as String,
+        hitPoint: json['hitPoint'] as int,
+        createImageCount: json['createImageCount'] as int,
+        characterImageUrl: json['characterImageUrl'] as String,
+      );
 
   Map<String, dynamic> toJson() => {
         'userName': userName,
         'hitPoint': hitPoint,
         'createImageCount': createImageCount,
+        'characterImageUrl': characterImageUrl,
       };
 }
 
@@ -115,5 +121,6 @@ extension on UserDocument {
         userName: userName,
         hitPoint: hitPoint,
         createImageCount: createImageCount,
+        characterImageUrl: characterImageUrl,
       );
 }
