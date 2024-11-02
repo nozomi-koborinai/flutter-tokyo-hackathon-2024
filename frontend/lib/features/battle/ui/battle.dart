@@ -5,9 +5,6 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_gen.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/member_list.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/draw.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/lose.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/winner.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
 class BattleScreen extends ConsumerWidget {
@@ -30,47 +27,16 @@ class BattleScreen extends ConsumerWidget {
         final otherUser = users.firstWhere((user) => user.uid != uid);
 
         // バトル終了時に4秒後に画面遷移
-        if (currentUser.hitPoint <= 0 || otherUser.hitPoint <= 0) {
-          Future.delayed(const Duration(seconds: 4), () {
-            if (currentUser.hitPoint <= 0 && otherUser.hitPoint <= 0) {
-              // Draw
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Draw(
-                    uid: uid,
-                    room: room,
-                  ),
-                ),
-              );
-            } else if (currentUser.hitPoint <= 0) {
-              // Lose
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Lose(room: room, uid: uid),
-                ),
-              );
-            } else {
-              // Win
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Winner(room: room, uid: uid),
-                ),
-              );
-            }
-          });
-        } else {
-          // 両者のHPが0より大きい場合は4秒後にキャラクター生成画面へ
-          Future.delayed(const Duration(seconds: 4), () {
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => CharacterGenerationPage(
-                  uid: uid,
-                  room: room,
-                ),
+        Future.delayed(const Duration(seconds: 4), () {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (context) => CharacterGenerationPage(
+                uid: uid,
+                room: room,
               ),
-            );
-          });
-        }
+            ),
+          );
+        });
 
         return Scaffold(
           body: Container(

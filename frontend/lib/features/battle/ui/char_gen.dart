@@ -5,6 +5,7 @@ import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_select.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/draw.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/lose.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/winner.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/create_character_usecase.dart';
@@ -29,27 +30,35 @@ class CharacterGenerationPage extends ConsumerWidget {
       data: (users) {
         final currentUser = users.firstWhere((user) => user.uid == uid);
         final otherUser = users.firstWhere((user) => user.uid != uid);
-        if (currentUser.hitPoint <= 0) {
-          // 遷移後に前の画面に戻れないようにするため pushReplacement を使用
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Winner(
-                  room: room,
-                  uid: uid,
+
+        // バトル終了時に4秒後に画面遷移
+        if (currentUser.hitPoint <= 0 || otherUser.hitPoint <= 0) {
+          Future.delayed(const Duration(seconds: 4), () {
+            if (currentUser.hitPoint <= 0 && otherUser.hitPoint <= 0) {
+              // Draw
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => Draw(
+                    uid: uid,
+                    room: room,
+                  ),
                 ),
-              ),
-            );
-          });
-        } else if (otherUser.hitPoint <= 0) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Lose(room: room, uid: uid),
-              ),
-            );
+              );
+            } else if (currentUser.hitPoint <= 0) {
+              // Lose
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => Lose(room: room, uid: uid),
+                ),
+              );
+            } else if (otherUser.hitPoint <= 0) {
+              // Win
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                  builder: (context) => Winner(room: room, uid: uid),
+                ),
+              );
+            }
           });
         }
         return Scaffold(
