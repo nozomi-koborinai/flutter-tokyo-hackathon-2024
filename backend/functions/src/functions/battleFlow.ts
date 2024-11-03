@@ -22,36 +22,14 @@ export const battleFlow = genkitFunctions.onFlow(
     }),
   },
   async (input) => {
-    // 最初に両プレイヤーの現在のHPをチェック
-    const user = await db.collection("users").doc(input.uid).get();
-    const pairUser = await db.collection("users").doc(input.pairUid).get();
-    const userHp = user.data()!.hitPoint;
-    const pairUserHp = pairUser.data()!.hitPoint;
-
-    // どちらかのHPが既に0以下の場合は即座に勝敗を決定
-    if (userHp <= 0 || pairUserHp <= 0) {
-      await db.collection("rooms").doc(input.roomId).update({
-        isOpen: false,
-      });
-
-      return {
-        result: {
-          winner: userHp <= 0 ? input.pairUid : input.uid,
-          damage: 0, // 既に決着がついているので damage は 0
-          targetUid: userHp <= 0 ? input.uid : input.pairUid,
-        },
-      };
-    }
-
-    // 通常のバトル評価処理
+    // バトル評価を実行
     const evaluatePrompt = await prompt<z.infer<typeof battleInputSchema>>(
       `evaluteBattle`
     );
 
     const evaluation = await evaluatePrompt.generate({ input });
-    const result = evaluation.data();
 
-    // ダメージを受けるユーザーのHPを更新
+    const result = evaluation.data();
     const targetUser = await db.collection("users").doc(result.targetUid).get();
     const currentHp = targetUser.data()!.hitPoint;
     const newHp = Math.max(0, currentHp - result.damage);
@@ -61,15 +39,18 @@ export const battleFlow = genkitFunctions.onFlow(
       hitPoint: newHp,
     });
 
-    // 更新後のHPが0になった場合は勝者を決定
-    if (newHp <= 0) {
+    // HPが0になった場合は勝者を決定
+    if (newHp === 0) {
+      const winner = result.targetUid === input.uid ? input.pairUid : input.uid;
+
+      // roomのステータスを更新
       await db.collection("rooms").doc(input.roomId).update({
         isOpen: false,
       });
 
       return {
         result: {
-          winner: result.targetUid === input.uid ? input.pairUid : input.uid,
+          winner,
           damage: result.damage,
           targetUid: result.targetUid,
         },
