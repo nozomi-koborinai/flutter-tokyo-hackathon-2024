@@ -39,10 +39,14 @@ export const battleFlow = genkitFunctions.onFlow(
       hitPoint: newHp,
     });
 
-    // HPが0になった場合は勝者を決定
-    if (newHp === 0) {
-      const winner = result.targetUid === input.uid ? input.pairUid : input.uid;
+    // 両プレイヤーの最新のHPを取得
+    const user = await db.collection("users").doc(input.uid).get();
+    const pairUser = await db.collection("users").doc(input.pairUid).get();
+    const userHp = user.data()!.hitPoint;
+    const pairUserHp = pairUser.data()!.hitPoint;
 
+    // どちらかのHPが0以下になった場合は勝者を決定
+    if (userHp <= 0 || pairUserHp <= 0) {
       // roomのステータスを更新
       await db.collection("rooms").doc(input.roomId).update({
         isOpen: false,
@@ -50,7 +54,7 @@ export const battleFlow = genkitFunctions.onFlow(
 
       return {
         result: {
-          winner,
+          winner: userHp <= 0 ? input.pairUid : input.uid,
           damage: result.damage,
           targetUid: result.targetUid,
         },
