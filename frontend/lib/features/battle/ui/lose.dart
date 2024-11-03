@@ -137,7 +137,7 @@ class Lose extends ConsumerWidget {
                     // ElevatedButton(
                     //   onPressed: () {},
                     //   child: const Text('もう一度戦う'),
-                    // ),
+                    /// ),
                     ElevatedButton(
                       onPressed: () {
                         PageNavigator.push(
