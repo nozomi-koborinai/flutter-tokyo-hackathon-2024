@@ -6,7 +6,6 @@ import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_gen.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/member_list.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/player_intro1.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
 class Winner extends ConsumerWidget {
@@ -135,16 +134,7 @@ class Winner extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: () {
-                        // CharacterSelectScreenへ遷移
-                        PageNavigator.push(
-                          context,
-                          PlayerIntro1(
-                            uid: uid,
-                            room: room,
-                          ),
-                        );
-                      },
+                      onPressed: () {},
                       child: const Text('もう一度戦う'),
                     ),
                     ElevatedButton(

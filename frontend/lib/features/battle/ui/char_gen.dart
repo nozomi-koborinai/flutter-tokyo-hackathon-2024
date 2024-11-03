@@ -33,33 +33,42 @@ class CharacterGenerationPage extends ConsumerWidget {
 
         // バトル終了時に4秒後に画面遷移
         if (currentUser.hitPoint <= 0 || otherUser.hitPoint <= 0) {
-          Future.delayed(const Duration(seconds: 4), () {
-            if (currentUser.hitPoint <= 0 && otherUser.hitPoint <= 0) {
-              // Draw
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Draw(
-                    uid: uid,
-                    room: room,
-                  ),
-                ),
-              );
-            } else if (currentUser.hitPoint <= 0) {
-              // Lose
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Lose(room: room, uid: uid),
-                ),
-              );
-            } else if (otherUser.hitPoint <= 0) {
-              // Win
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => Winner(room: room, uid: uid),
-                ),
-              );
-            }
-          });
+          if (currentUser.hitPoint <= 0 && otherUser.hitPoint <= 0) {
+            // Draw
+            PageNavigator.pushAndRemoveUntil(
+              context,
+              Draw(
+                uid: uid,
+                room: room,
+              ),
+            );
+            // Navigator.of(context).pushAndRemoveUntil(
+            //   MaterialPageRoute(
+            //     builder: (context) => Draw(
+            //       uid: uid,
+            //       room: room,
+            //     ),
+            //   ),
+            // );
+          } else if (currentUser.hitPoint <= 0) {
+            // Lose
+            PageNavigator.pushAndRemoveUntil(
+                context, Lose(room: room, uid: uid));
+            // Navigator.of(context).pushReplacement(
+            //   MaterialPageRoute(
+            //     builder: (context) => Lose(room: room, uid: uid),
+            //   ),
+            // );
+          } else if (otherUser.hitPoint <= 0) {
+            // Win
+            PageNavigator.pushAndRemoveUntil(
+                context, Winner(room: room, uid: uid));
+            // Navigator.of(context).pushReplacement(
+            //   MaterialPageRoute(
+            //     builder: (context) => Winner(room: room, uid: uid),
+            //   ),
+            // );
+          }
         }
         return Scaffold(
           body: Padding(

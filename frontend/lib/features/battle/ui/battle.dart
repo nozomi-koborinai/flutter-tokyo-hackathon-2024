@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_gen.dart';
@@ -27,13 +28,12 @@ class BattleScreen extends ConsumerWidget {
         final otherUser = users.firstWhere((user) => user.uid != uid);
 
         // バトル終了時に4秒後に画面遷移
-        Future.delayed(const Duration(seconds: 4), () {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (context) => CharacterGenerationPage(
-                uid: uid,
-                room: room,
-              ),
+        Future.delayed(const Duration(seconds: 6), () {
+          PageNavigator.pushAndRemoveUntil(
+            context,
+            CharacterGenerationPage(
+              uid: uid,
+              room: room,
             ),
           );
         });
@@ -90,35 +90,6 @@ class BattleScreen extends ConsumerWidget {
                                         ),
                                       ),
                               ),
-                              if (currentUser.hitPoint <= 0 ||
-                                  otherUser.hitPoint <= 0)
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _getBattleResult(
-                                        currentUserHp: currentUser.hitPoint,
-                                        otherUserHp: otherUser.hitPoint,
-                                        isCurrentUser: true,
-                                      ),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          Shadow(
-                                            blurRadius: 10,
-                                            color: Colors.black,
-                                            offset: Offset(2, 2),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
                             ],
                           ),
                         ),
@@ -152,35 +123,6 @@ class BattleScreen extends ConsumerWidget {
                                         ),
                                       ),
                               ),
-                              if (currentUser.hitPoint <= 0 ||
-                                  otherUser.hitPoint <= 0)
-                                Container(
-                                  decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      _getBattleResult(
-                                        currentUserHp: currentUser.hitPoint,
-                                        otherUserHp: otherUser.hitPoint,
-                                        isCurrentUser: false,
-                                      ),
-                                      style: const TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 48,
-                                        fontWeight: FontWeight.bold,
-                                        shadows: [
-                                          Shadow(
-                                            blurRadius: 10,
-                                            color: Colors.black,
-                                            offset: Offset(2, 2),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
                             ],
                           ),
                         ),
@@ -221,22 +163,5 @@ class BattleScreen extends ConsumerWidget {
       error: (error, stack) => const SizedBox.shrink(),
       loading: () => const OverlayLoading(),
     );
-  }
-
-  /// バトル結果のテキストを取得
-  String _getBattleResult({
-    required int currentUserHp,
-    required int otherUserHp,
-    required bool isCurrentUser,
-  }) {
-    if (currentUserHp <= 0 && otherUserHp <= 0) {
-      return 'DRAW';
-    }
-
-    if (isCurrentUser) {
-      return currentUserHp <= 0 ? 'LOSE' : 'WIN';
-    } else {
-      return otherUserHp <= 0 ? 'LOSE' : 'WIN';
-    }
   }
 }
