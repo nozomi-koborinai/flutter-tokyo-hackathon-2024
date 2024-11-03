@@ -3,9 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/battle.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/member_list.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/player_intro1.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/battle_usecase.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
 
@@ -87,7 +87,7 @@ class CharacterSelectScreen extends ConsumerWidget {
                             );
                         PageNavigator.push(
                           context,
-                          PlayerIntro1(uid: uid, room: room),
+                          BattleScreen(uid: uid, room: room),
                         );
                       },
                       child: const Text('このキャラで戦う'),
