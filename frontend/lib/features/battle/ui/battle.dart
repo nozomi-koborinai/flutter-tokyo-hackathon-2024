@@ -27,8 +27,8 @@ class BattleScreen extends ConsumerWidget {
         final currentUser = users.firstWhere((user) => user.uid == uid);
         final otherUser = users.firstWhere((user) => user.uid != uid);
 
-        // バトル終了時に4秒後に画面遷移
-        Future.delayed(const Duration(seconds: 10), () {
+        // バトル終了時に2秒後に画面遷移
+        Future.delayed(const Duration(seconds: 2), () {
           PageNavigator.pushAndRemoveUntil(
             context,
             CharacterGenerationPage(
