@@ -93,6 +93,24 @@ class BattleScreen extends ConsumerWidget {
                             ],
                           ),
                         ),
+
+                        // VS テキスト
+                        const Text(
+                          'VS',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black,
+                                blurRadius: 2,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+
                         // 相手のキャラクター
                         Expanded(
                           child: Stack(
