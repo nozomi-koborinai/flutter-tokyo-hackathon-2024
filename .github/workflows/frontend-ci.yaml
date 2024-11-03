@@ -39,7 +39,7 @@ jobs:
         working-directory: ./frontend
 
       - name: Build Web
-        run: flutter build web
+        run: flutter build web --web-renderer html
         working-directory: ./frontend
 
       - name: Authenticate to Google Cloud
