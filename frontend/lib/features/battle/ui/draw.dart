@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/utils/page_navigator.dart';
 import 'package:flutter_tokyo_hackathon_2024/core/widgets/loading.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/model/room.dart';
-import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/char_gen.dart';
+import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/battle_room.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/member_list.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/ui/common/player_info.dart';
 import 'package:flutter_tokyo_hackathon_2024/features/battle/usecase/state/subscribe_batlle_users_provider.dart';
@@ -133,17 +133,16 @@ class Draw extends ConsumerWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    ElevatedButton(
-                      onPressed: () {},
-                      child: const Text('もう一度戦う'),
-                    ),
+                    //ElevatedButton(
+                    //onPressed: () {},
+                    //child: const Text('もう一度戦う'),
+                    //),
                     ElevatedButton(
                       onPressed: () {
                         PageNavigator.push(
                           context,
-                          CharacterGenerationPage(
+                          BattleRoom(
                             uid: uid,
-                            room: room,
                           ),
                         );
                       },

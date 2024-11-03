@@ -16,11 +16,6 @@ class PlayerInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(12.0),
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(8),
-        border: Border.all(color: Colors.grey),
-      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -31,7 +26,6 @@ class PlayerInfo extends StatelessWidget {
                 'プレイヤー名',
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey,
                 ),
               ),
               Text(
@@ -50,7 +44,6 @@ class PlayerInfo extends StatelessWidget {
                 'HP',
                 style: TextStyle(
                   fontSize: 14,
-                  color: Colors.grey,
                 ),
               ),
               Text(

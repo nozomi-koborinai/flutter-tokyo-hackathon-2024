@@ -50,7 +50,7 @@ class CharacterGenerationPage extends ConsumerWidget {
             //     ),
             //   ),
             // );
-          } else if (currentUser.hitPoint <= 0) {
+          } else if (currentUser.hitPoint <= 0 && otherUser.hitPoint > 0) {
             // Lose
             PageNavigator.pushAndRemoveUntil(
                 context, Lose(room: room, uid: uid));
@@ -59,7 +59,7 @@ class CharacterGenerationPage extends ConsumerWidget {
             //     builder: (context) => Lose(room: room, uid: uid),
             //   ),
             // );
-          } else if (otherUser.hitPoint <= 0) {
+          } else if (otherUser.hitPoint <= 0 && currentUser.hitPoint > 0) {
             // Win
             PageNavigator.pushAndRemoveUntil(
                 context, Winner(room: room, uid: uid));

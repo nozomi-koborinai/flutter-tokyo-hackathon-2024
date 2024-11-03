@@ -28,7 +28,7 @@ class BattleScreen extends ConsumerWidget {
         final otherUser = users.firstWhere((user) => user.uid != uid);
 
         // バトル終了時に4秒後に画面遷移
-        Future.delayed(const Duration(seconds: 6), () {
+        Future.delayed(const Duration(seconds: 10), () {
           PageNavigator.pushAndRemoveUntil(
             context,
             CharacterGenerationPage(
@@ -93,6 +93,24 @@ class BattleScreen extends ConsumerWidget {
                             ],
                           ),
                         ),
+
+                        // VS テキスト
+                        const Text(
+                          'VS',
+                          style: TextStyle(
+                            color: Colors.red,
+                            fontSize: 48,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black,
+                                blurRadius: 2,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+
                         // 相手のキャラクター
                         Expanded(
                           child: Stack(
