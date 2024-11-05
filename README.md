@@ -1,5 +1,9 @@
 # Flutter Tokyo Hackathon 2024_Generate Wars
 
+![IMG_9120](https://github.com/user-attachments/assets/7749a2e3-a635-4495-b3eb-79bd8fa57355)
+
+https://github.com/user-attachments/assets/007f1bf0-caed-46e8-b961-f0422f577dd0
+
 ## プロジェクト概要
 
 このテンプレートは、フロントエンド（Flutter）、バックエンド（Firebase）、インフラストラクチャ（Terraform）の3つの主要コンポーネントで構成されているモノレポです。
